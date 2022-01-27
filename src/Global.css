@@ -1,0 +1,26 @@
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: grey;
+    font-weight:500;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: grey;
+    font-weight:500;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: grey;
+    font-weight:500;
+  }
+  input.noHover:focus,
+  input.noHover:hover {
+    border-color: #9c9f84;
+    box-shadow: none;
+    outline: none !important;
+}
+
+.noHover{
+    margin: auto;
+  display: block;
+}
