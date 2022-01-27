@@ -2,40 +2,36 @@ import { Box, InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { fadeInUp, stagger } from "../motion";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Api } from "../API/Api";
 import "../Global.css";
+import debounce from "lodash.debounce";
 import SkeletonCard from "./SkeletonCard";
 
 export default function HomePage() {
-  let query;
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("africa");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
-    setSearch(event.target.value);
+    const { value } = event.target;
+    setSearch(value);
+    debouncedSearch(value);
     console.log("search here: ", search);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSearch(e.target.value);
-  };
+  const debouncedSearch = useCallback(
+    debounce((newValue) => getData(newValue), 1000),
+    []
+  );
 
-  if (search === "") {
-    query = "africa";
-  } else {
-    query = setSearch;
-  }
-
-  useEffect(() => {
+  const getData = (query) => {
+    console.log(9+9);
     Api(query).then((data) => {
       console.log("What is data: ", data.results);
       setData(data.results);
-      setLoading(false);
     });
-  }, [query]);
+  };
 
   return (
     <main>
@@ -63,7 +59,7 @@ export default function HomePage() {
         </InputGroup>
       </Box>
       {loading && <SkeletonCard />}
-      {!loading && (
+      {(
         <section>
           <motion.div
             exit={{ opacity: 0 }}
