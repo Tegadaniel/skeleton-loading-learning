@@ -1,11 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
-import Home from './Components';
+import Home from "./Components";
 
 function App() {
-  return (
-    <Home/>
-  );
+  return <Home />;
 }
 
 export default App;
