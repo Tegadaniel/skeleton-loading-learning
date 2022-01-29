@@ -2,35 +2,29 @@ import { Box, InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { fadeInUp, stagger } from "../motion";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Api } from "../API/Api";
 import "../Global.css";
-import debounce from "lodash.debounce";
+
 import SkeletonCard from "./SkeletonCard";
 
 export default function HomePage() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("africa");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setSearch(value);
-    debouncedSearch(value);
-    console.log("search here: ", search);
-  };
-
-  const debouncedSearch = useCallback(
-    debounce((newValue) => getData(newValue), 1000),
-    []
-  );
-
-  const getData = (query) => {
-    console.log(9+9);
-    Api(query).then((data) => {
+  useEffect(() => {
+    if (!search) return;
+    Api(search).then((data) => {
       console.log("What is data: ", data.results);
       setData(data.results);
+      setLoading(false);
     });
+  }, [search]);
+
+  const handleChange = (event) => {
+    setSearch(event.target.value);
+    console.log("search here: ", event.target.value);
   };
 
   return (
@@ -43,12 +37,10 @@ export default function HomePage() {
             children={<SearchIcon color="gray.300" />}
             fontSize="lg"
           />
+
           <Input
+            id="inpo"
             onChange={handleChange}
-            // onKeyPress={(e) => {
-            //   e.target.keyCode === 13 && e.preventDefault();
-            // }}
-            value={search}
             className="noHover"
             height="60px"
             backgroundColor="white"
@@ -59,7 +51,7 @@ export default function HomePage() {
         </InputGroup>
       </Box>
       {loading && <SkeletonCard />}
-      {(
+      {!loading && (
         <section>
           <motion.div
             exit={{ opacity: 0 }}
