@@ -5,21 +5,26 @@ import { fadeInUp, stagger } from "../motion";
 import React, { useState, useEffect } from "react";
 import { Api } from "../API/Api";
 import "../Global.css";
-
 import SkeletonCard from "./SkeletonCard";
+import ImageModal from "./ImageModal";
 
 export default function HomePage() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("africa");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
     if (!search) return;
-    Api(search).then((data) => {
-      console.log("What is data: ", data.results);
-      setData(data.results);
-      setLoading(false);
-    });
+    setLoading(true);
+    const timer = setTimeout(() => {
+      Api(search).then((data) => {
+        console.log("What is data: ", data.results);
+        setData(data.results);
+        setLoading(false);
+      });
+    }, 2500);
+    return () => clearTimeout(timer);
   }, [search]);
 
   const handleChange = (event) => {
@@ -49,7 +54,10 @@ export default function HomePage() {
             placeholder="Search for photo"
           />
         </InputGroup>
+        {/* {loading && <h3>Searching for {search}</h3>}
+        {!loading && <h3>Results for {search}</h3>} */}
       </Box>
+
       {loading && <SkeletonCard />}
       {!loading && (
         <section>
@@ -74,6 +82,7 @@ export default function HomePage() {
                     transition={{ delay: 0.4 }}
                     src={data.urls.small}
                     alt={data.alt_description}
+                    onClick={() => setModalData(data)}
                     className="img-collection"
                   />
                   <motion.div
@@ -91,6 +100,11 @@ export default function HomePage() {
           </motion.div>
         </section>
       )}
+      <ImageModal
+        isOpen={modalData ? true : false}
+        onClose={() => setModalData(null)}
+        modalData={modalData}
+      />
     </main>
   );
 }
