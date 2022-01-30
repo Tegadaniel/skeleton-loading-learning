@@ -19,7 +19,6 @@ export default function HomePage() {
     setLoading(true);
     const timer = setTimeout(() => {
       Api(search).then((data) => {
-        console.log("What is data: ", data.results);
         setData(data.results);
         setLoading(false);
       });

@@ -13,8 +13,6 @@ import {
 
 export default function ImageModal({ isOpen, onClose, modalData }) {
   const { user, urls } = modalData || {};
-  console.log("user here", user);
-  console.log("What is modaldata", modalData);
   return (
     <Modal
       isOpen={isOpen}
