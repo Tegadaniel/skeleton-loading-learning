@@ -47,7 +47,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .noHover{
-    margin: auto;
+  margin: auto;
   display: block;
 }
 section{
@@ -57,7 +57,7 @@ section{
 .grid-container{
     column-count: 3;
     margin: -45px auto 30px;
-    max-width: 1300px;
+    max-width: 1000px;
 }
 
 .grid-item{

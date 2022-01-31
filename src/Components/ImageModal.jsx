@@ -17,16 +17,16 @@ export default function ImageModal({ isOpen, onClose, modalData }) {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size="4xl"
+      size="3xl"
       motionPreset="slideInBottom"
       isCentered
     >
       <ModalOverlay />
-      <ModalContent h="650px" w="800px">
+      <ModalContent h="550px" w="800px">
         <ModalCloseButton />
         <ModalBody>
           <Box w="full" h="full">
-            <Flex w="full" h="500px" position="relative">
+            <Flex w="full" h="450px" position="relative">
               <Image
                 pt="50px"
                 width="full"
